@@ -1,0 +1,46 @@
+(ns synacek-com.site.views)
+
+
+(def nbsp "\u00A0")
+  
+(defn nnbsp [n]
+  (apply str (repeat n nbsp)))  
+
+
+(defn +home
+  []
+  [:div.home
+    [:div#card
+      [:div.intro
+        [:div
+          (nnbsp 7)
+          [:span.baf "B"]
+          "etween all pages, the imaginative center of "
+          [:span.doesit
+            "my "
+            [:span.lie "internet"]
+            " existence "
+            [:span.lie "lies"]
+            " here."]]
+
+        [:div
+          (nnbsp 9)
+          [:span#baf.baf "A"]
+          "s with every imaginative center, there is absolutely nothing special here."]
+
+        [:div
+          (nnbsp 11)
+          [:span.baf "F"]
+          "ollow the links underneath to get to the more interesting stuff."]
+
+        [:div (nnbsp 1)]
+
+        [:div
+          (nnbsp 16)
+          [:a {:href "/where/"} "where"]
+          " - my obsession with location on planet Earth"]
+
+        [:div
+          (nnbsp 18)
+          [:a {:href "/blog/"} "blog"]
+          " - all my writings in one place"]]]])

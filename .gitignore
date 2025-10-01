@@ -1,0 +1,25 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+*.pdb
+
+# Cargo lock file (uncomment if this is a library)
+# Cargo.lock
+
+# Debug symbols
+*.dSYM/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary test outputs
+/tmp/
+*.tmp
+
+# Parinfer-rust library (cloned dependency)
+/parinfer-rust-lib/

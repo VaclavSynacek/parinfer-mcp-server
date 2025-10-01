@@ -1,0 +1,13 @@
+[package]
+name = "parinfer-cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "parinfer-cli"
+path = "src/main.rs"
+
+[dependencies]
+parinfer_rust = { path = "parinfer-rust-lib" }
+
+[dev-dependencies]
