@@ -23,8 +23,9 @@ impl ServerHandler for ParinferServer {
             },
             instructions: Some(
                 "This server provides a tool to fix Clojure code parentheses based on indentation. \
-                 Use the 'fix_parens' tool to correct mismatched or missing closing parentheses \
-                 while preserving the original indentation.".into()
+                 When compilation fails due to mismatched, missing, or extra closing delimiters (parentheses, brackets, braces), \
+                 use the 'fix_parens' tool instead of trying to fix them manually. \
+                 The tool is particularly helpful for larger code blocks where delimiter balancing is complex.".into()
             ),
             capabilities: ServerCapabilities::builder()
                 .enable_tools()
@@ -103,9 +104,11 @@ impl ServerHandler for ParinferServer {
                 name: "fix_parens".into(),
                 title: Some("Fix Clojure Parentheses".into()),
                 description: Some(
-                    "Fixes mismatched or missing closing parentheses in Clojure code \
-                     based on indentation. The input should have correct indentation but \
-                     may have incorrect or missing closing delimiters. Returns the corrected code."
+                    "Automatically fixes closing delimiters in Clojure code: missing parens, wrong types (e.g., ')' instead of ']' ), extra delimiters, or mismatched nesting. \
+                     IMPORTANT: When compilation fails with parenthesis/bracket/brace errors, use this tool rather than attempting manual fixes. \
+                     It infers correct delimiters from indentation, which is more reliable for complex code blocks as AIs are well trained on indeted code, but less oso on lisp-like code. \
+                     Input: Clojure code with correct indentation (indentation determines the intended structure). \
+                     Output: Same code with all closing delimiters (, [, { properly balanced."
                         .into(),
                 ),
                 input_schema: Arc::new(
@@ -114,7 +117,7 @@ impl ServerHandler for ParinferServer {
                         "properties": {
                             "code": {
                                 "type": "string",
-                                "description": "Clojure code with correct indentation but potentially incorrect parentheses"
+                                "description": "Clojure / ClojureScript code with correct indentation but potentially incorrect closing delimiters. The tool infers proper delimiters from indentation."
                             }
                         },
                         "required": ["code"]
