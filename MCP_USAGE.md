@@ -1,4 +1,4 @@
-# MCP Server Usage Guide
+# MCP Usage Guide
 
 ## What is MCP?
 
@@ -9,13 +9,7 @@ Model Context Protocol (MCP) is a standard for connecting AI assistants to exter
 ### 1. Build the Server
 
 ```bash
-make build-mcp
-```
-
-Or:
-
-```bash
-cargo build --release --bin parinfer-mcp-server
+make build
 ```
 
 ### 2. Configure Your MCP Client
@@ -38,9 +32,9 @@ Add to your Claude Desktop configuration file:
 }
 ```
 
-#### Other MCP Clients (Cline, etc.)
+#### Other MCP Clients
 
-Refer to your client's documentation for MCP server configuration.
+Refer to your client's documentation for MCP server configuration. The server communicates via stdio using JSON-RPC.
 
 ## Testing
 
@@ -58,9 +52,17 @@ This will open a web interface where you can:
 3. Call tools with test inputs
 4. Inspect requests and responses
 
-### Manual Testing
+### Using Integration Tests
 
-You can also send JSON-RPC requests directly:
+Run the integration tests:
+
+```bash
+make test
+```
+
+### Manual JSON-RPC Testing
+
+Send JSON-RPC requests directly to the server:
 
 ```bash
 echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}' | ./target/release/parinfer-mcp-server

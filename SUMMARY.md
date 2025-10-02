@@ -1,59 +1,39 @@
-# Parinfer CLI & MCP Server - Project Summary
+# Parinfer MCP Server - Project Summary
 
 ## Overview
 
-This project provides two ways to fix Clojure code parentheses using the parinfer-rust library:
-
-1. **CLI Tool** (`parinfer-cli`) - Command-line tool for direct usage
-2. **MCP Server** (`parinfer-mcp-server`) - Model Context Protocol server for AI assistant integration
-
-Both tools use parinfer's "indent mode" to infer correct closing parentheses based on indentation.
+An MCP (Model Context Protocol) server that fixes Clojure code parentheses using the parinfer-rust library. It uses parinfer's "indent mode" to infer correct closing parentheses based on indentation.
 
 ## Project Structure
 
 ```
 parinfer-mcp/
 ├── src/
-│   ├── main.rs           # CLI tool implementation
-│   └── mcp_server.rs     # MCP server implementation
+│   └── main.rs              # MCP server implementation
 ├── tests/
 │   └── integration_test.rs  # Integration tests
-├── test-data/            # Test input/output pairs
+├── test-data/               # Test input/output pairs
 │   ├── input-01.txt
 │   ├── expected-01.txt
 │   ├── input-02.txt
 │   ├── expected-02.txt
 │   ├── input-03.txt
 │   └── expected-03.txt
-├── parinfer-rust-lib/    # Cloned parinfer-rust library (modified)
-├── Cargo.toml            # Rust project configuration
-├── Makefile              # Build automation
-├── .gitignore           # Git ignore rules
-├── README.md            # Main documentation
-├── MCP_USAGE.md         # MCP server usage guide
-└── SUMMARY.md           # This file
+├── Cargo.toml               # Rust project configuration
+├── Cargo.lock               # Dependency lockfile
+├── .gitignore              # Git ignore rules
+├── README.md               # Main documentation
+├── MCP_USAGE.md            # Detailed usage guide
+└── SUMMARY.md              # This file
 ```
 
 ## Building
 
 ```bash
-make build        # Build both CLI and MCP server
-make build-cli    # Build CLI only
-make build-mcp    # Build MCP server only
-make test         # Run tests
-make clean        # Clean build artifacts
+make build
 ```
 
-## CLI Tool
-
-**Binary:** `target/release/parinfer-cli`
-
-**Usage:**
-```bash
-cat broken.clj | parinfer-cli > fixed.clj
-```
-
-**Purpose:** Direct command-line usage for fixing Clojure code parentheses.
+Binary will be at `target/release/parinfer-mcp-server`.
 
 ## MCP Server
 
@@ -68,7 +48,7 @@ cat broken.clj | parinfer-cli > fixed.clj
 {
   "mcpServers": {
     "parinfer": {
-      "command": "/path/to/parinfer-mcp-server"
+      "command": "/absolute/path/to/parinfer-mcp-server"
     }
   }
 }
@@ -76,6 +56,7 @@ cat broken.clj | parinfer-cli > fixed.clj
 
 **Testing:**
 ```bash
+make test
 npx @modelcontextprotocol/inspector ./target/release/parinfer-mcp-server
 ```
 
@@ -83,10 +64,11 @@ npx @modelcontextprotocol/inspector ./target/release/parinfer-mcp-server
 
 ### Dependencies
 
-- **parinfer_rust**: Local dependency (parinfer-rust-lib/) - Core parinfer functionality
+- **parinfer_rust**: Git dependency from forked repository - Core parinfer functionality
 - **rmcp**: MCP server SDK (v0.7 with server and transport-io features)
 - **tokio**: Async runtime
 - **serde/serde_json**: Serialization
+- **anyhow**: Error handling
 - **tracing**: Logging
 
 ### Key Features
@@ -98,28 +80,9 @@ npx @modelcontextprotocol/inspector ./target/release/parinfer-mcp-server
 
 ### Tests
 
-All tests pass:
-- ✓ Integration tests with 3 test cases
-- ✓ CLI verification
-- ✓ MCP server initialization
+Integration tests verify correct processing of all test cases in `test-data/` directory.
 
-## Usage Examples
-
-### CLI Example
-
-Input:
-```clojure
-(defn foo [x
-  (+ x 1
-```
-
-Output:
-```clojure
-(defn foo [x]
-  (+ x 1))
-```
-
-### MCP Example
+## Usage Example
 
 When connected to an AI assistant:
 
@@ -127,4 +90,6 @@ When connected to an AI assistant:
 User: Fix this Clojure code:
 (defn calculate [x y
   (let [sum (+ x y
-    sum
+        diff (- x y
+    {:sum sum
+     :diff diff
