@@ -17,6 +17,7 @@ build:
 
 test:
 	cargo test
+	cd tests && ./smoke-test-mcp.py
 
 clean:
 	cargo clean
