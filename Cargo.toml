@@ -7,7 +7,18 @@ edition = "2021"
 name = "parinfer-cli"
 path = "src/main.rs"
 
+[[bin]]
+name = "parinfer-mcp-server"
+path = "src/mcp_server.rs"
+
 [dependencies]
 parinfer_rust = { path = "parinfer-rust-lib" }
+rmcp = { version = "0.7", features = ["server", "transport-io"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [dev-dependencies]
