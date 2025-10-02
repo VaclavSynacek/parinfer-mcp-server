@@ -1,15 +1,11 @@
 [package]
-name = "parinfer-cli"
+name = "parinfer-mcp-server"
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "parinfer-cli"
-path = "src/main.rs"
-
-[[bin]]
 name = "parinfer-mcp-server"
-path = "src/mcp_server.rs"
+path = "src/main.rs"
 
 [dependencies]
 parinfer_rust = { git = "https://github.com/VaclavSynacek/parinfer-rust.git", branch = "expose-public-api" }

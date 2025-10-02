@@ -1,5 +1,3 @@
-use std::process::{Command, Stdio};
-use std::io::Write;
 use std::fs;
 
 #[test]
@@ -16,26 +14,36 @@ fn test_all_parinfer_cases() {
         let expected = fs::read_to_string(expected_file)
             .expect(&format!("Failed to read {}", expected_file));
 
-        let mut child = Command::new("cargo")
-            .args(&["run", "--bin", "parinfer-cli"])
-            .stdin(Stdio::piped())
-            .stdout(Stdio::piped())
-            .stderr(Stdio::piped())
-            .spawn()
-            .expect("Failed to spawn parinfer-cli");
+        let options = parinfer_rust::types::Options {
+            cursor_x: None,
+            cursor_line: None,
+            prev_cursor_x: None,
+            prev_cursor_line: None,
+            prev_text: None,
+            selection_start_line: None,
+            changes: vec![],
+            comment_char: ';',
+            string_delimiters: vec!["\"".to_string()],
+            lisp_vline_symbols: false,
+            lisp_block_comments: false,
+            guile_block_comments: false,
+            scheme_sexp_comments: false,
+            janet_long_strings: false,
+            hy_bracket_strings: false,
+        };
 
-        {
-            let stdin = child.stdin.as_mut().expect("Failed to open stdin");
-            stdin.write_all(input.as_bytes()).expect("Failed to write to stdin");
-        }
+        let answer = parinfer_rust::parinfer::indent_mode(&input, &options);
 
-        let output = child.wait_with_output().expect("Failed to wait for child");
-        let result = String::from_utf8(output.stdout).expect("Failed to parse stdout");
+        assert!(
+            answer.success,
+            "Parinfer failed for input file: {}\nError: {:?}",
+            input_file, answer.error
+        );
 
         assert_eq!(
-            result, expected,
+            answer.text, expected,
             "Mismatch for input file: {}\nExpected:\n{}\nGot:\n{}",
-            input_file, expected, result
+            input_file, expected, answer.text
         );
     }
 }
