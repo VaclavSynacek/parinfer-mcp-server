@@ -18,5 +18,4 @@
 /tmp/
 *.tmp
 
-# Parinfer-rust library (cloned dependency)
-/parinfer-rust-lib/
+server.log
