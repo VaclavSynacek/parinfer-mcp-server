@@ -461,7 +461,7 @@ dependencies = [
 [[package]]
 name = "parinfer_rust"
 version = "0.5.0"
-source = "git+https://github.com/VaclavSynacek/parinfer-rust.git?branch=expose-public-api#68ef2417a9882344e6b93ead8844f8368c7a0b94"
+source = "git+https://github.com/eraserhd/parinfer-rust.git#f519995ce802941007684e2d79e4fcba97853446"
 dependencies = [
  "getopts",
  "libc",
